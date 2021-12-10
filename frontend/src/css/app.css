@@ -1,0 +1,85 @@
+/* app global css */
+.container {
+  width: 96%;
+  max-width: 1366px;
+  margin: 0 auto;
+}
+
+@media (min-width: 376px) {
+  .mobile-small-form {
+    width: 80%;
+  }
+}
+
+.body {
+  background-color: #0000;
+}
+
+.row-gap-xs {
+  row-gap: 4px;
+}
+
+.row-gap-sm {
+  row-gap: 8px;
+}
+
+.row-gap-md {
+  row-gap: 16px;
+}
+
+.row-gap-xl {
+  row-gap: 32px;
+}
+
+
+.column-gap-xs {
+  column-gap: 4px;
+}
+
+.column-gap-sm {
+  column-gap: 8px;
+}
+
+.column-gap-md {
+  column-gap: 16px;
+}
+
+.column-gap-xl {
+  column-gap: 32px;
+}
+
+.row-column-gap-xs {
+  column-gap: 4px;
+  row-gap: 4px;
+}
+
+.row-column-gap-sm {
+  column-gap: 8px;
+  row-gap: 8px;
+}
+
+.row-column-gap-md {
+  column-gap: 16px;
+  row-gap: 16px;
+}
+
+.row-column-gap-lg {
+  column-gap: 32px;
+  row-gap: 32px;
+}
+
+.row-column-gap-xl {
+  column-gap: 64px;
+  row-gap: 64px;
+}
+
+body, html {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  min-height: 100vh;
+}
+body {
+  background-color: #1e2021;
+}
+

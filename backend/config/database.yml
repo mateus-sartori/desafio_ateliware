@@ -1,0 +1,32 @@
+# MySQL. Versions 5.5.8 and up are supported.
+#
+# Install the MySQL driver
+#   gem install mysql2
+#
+# Ensure the MySQL gem is defined in your Gemfile
+#   gem 'mysql2'
+#
+# And be sure to use new-style password hashing:
+#   https://dev.mysql.com/doc/refman/5.7/en/password-hashing.html
+#
+
+default: &default
+  adapter: mysql2
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+  username: root
+  password: root
+  host: db
+  encoding: utf8mb4
+
+test:
+  <<: *default
+  database: ateliware_challenge_test
+
+development:
+  <<: *default
+  database: ateliware_challenge_development
+
+production: 
+  <<: *default
+  database: ateliware_challenge
