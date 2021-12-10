@@ -2,7 +2,7 @@
 
 ![](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJxUqN1ucQcwoJRXVDXD5RUhUmtZcdRcEbp6Nl0UFnXr9iDM_oWoQKSJDu7IAIKyNxJKk&usqp=CAU)
 
-Desafio dedicado a empresa Stant para avaliação
+Desafio dedicado a empresa Ateliware para avaliação
 
 ### 🚦 Pré Requisitos
 
