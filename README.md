@@ -1,10 +1,6 @@
-# Desafio Ateliware
+# Github Explorer
 
-![](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJxUqN1ucQcwoJRXVDXD5RUhUmtZcdRcEbp6Nl0UFnXr9iDM_oWoQKSJDu7IAIKyNxJKk&usqp=CAU)
-
-Desafio dedicado a empresa Ateliware para avaliação
-
-### 🚦 Pré Requisitos
+## 🚦 Pré Requisitos
 
 - [Node](https://nodejs.org/en/)
 - [Yarn](https://yarnpkg.com/)
@@ -15,7 +11,7 @@ Desafio dedicado a empresa Ateliware para avaliação
 Clone o projeto em sua pasta local
 
 ```bash
-git clone https://github.com/mateus-sartori/desafio_ateliware.git
+git clone https://github.com/mateus-sartori/github_explorer.git
 ```
 
 Após isso temos dois ambientes `frontend` e `backend`
@@ -61,7 +57,7 @@ yarn
 yarn dev
 ```
 
-##### Em caso de aviso de comando inválido em frontend
+### Em caso de aviso de comando inválido em frontend
 
 ```bash
 # O Link a seguir tem os detalhes da instalação do quasar, framework que utiliza o Vue no frontend

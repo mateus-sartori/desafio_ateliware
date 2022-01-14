@@ -21,12 +21,12 @@ default: &default
 
 test:
   <<: *default
-  database: ateliware_challenge_test
+  database: github_explorer_test
 
 development:
   <<: *default
-  database: ateliware_challenge_development
+  database: github_explorer_development
 
 production: 
   <<: *default
-  database: ateliware_challenge
+  database: github_explorer

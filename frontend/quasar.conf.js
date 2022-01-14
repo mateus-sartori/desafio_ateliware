@@ -146,7 +146,7 @@ module.exports = configure(function (ctx) {
       manifest: {
         name: `Quasar App`,
         short_name: `Quasar App`,
-        description: `A challenge dedicated for Ateliware Company`,
+        description: `A Github Explorer project`,
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
