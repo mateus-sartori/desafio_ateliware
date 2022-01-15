@@ -2,26 +2,34 @@ require 'faraday'
 require 'json'
 
 module Repository
-  def featured_repositories
-    FeaturedRepository.all
-  end
-
-  def repositories_list(language)
-    return unless language.present?
-
+  # Search for repositories by Language
+  def get_repositories(language)
     url = 'https://api.github.com/search/repositories'
     response = Faraday.get(url, {
                              q: language,
                              sort: 'stars',
                              order: 'desc'
                            })
-    repos = JSON.parse(response.body)['items']
 
-    return if repos.nil?
+    git_response = { status: response.status }
+    git_response[:body] = JSON.parse(response.body)['items']
+    # Throw the message error in case of exceed limit
+    git_response[:body] = JSON.parse(response.body)['message'] if response.status == 403
+
+    git_response
+  end
+
+  # Extract only data that interests us from repositories
+  def extract_repositories_info(language)
+    return unless language.present?
+
+    repos = get_repositories(language)
+
+    return repos if repos[:status] == 403
 
     repositories = []
 
-    repos.each do |repo|
+    repos[:body].each do |repo|
       repository = {
         id_repository: repo['id'],
         owner: repo['owner'],
@@ -35,6 +43,6 @@ module Repository
       }
       repositories << repository
     end
-    repositories
+    { body: repositories, status: repos[:status] }
   end
 end
