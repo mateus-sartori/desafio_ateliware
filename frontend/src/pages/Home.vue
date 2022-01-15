@@ -13,14 +13,14 @@
             class="col-4"
             standout
             v-model="language"
-            v-on:keyup.enter="searchRepositories(language)"
+            v-on:keyup.enter="loadRepositories(language)"
             label="Pesquise pela linguagem"
             label-color="grey-7"
             style="background-color: #181a1b; border: 1px solid rgb(55 60 62)"
           ></q-input>
           <q-btn
             class="col-2"
-            @click="searchRepositories(language)"
+            @click="loadRepositories(language)"
             size="md"
             color="green-8"
             label="Buscar"
@@ -191,24 +191,24 @@ export default {
   }),
 
   created() {
-    this.searchRepositories("javascript");
+    this.loadRepositories("javascript");
   },
 
   methods: {
-    searchRepositories(language) {
+    loadRepositories(language) {
       this.$q.loading.show();
 
       var data = {
         language: language,
       };
       axios
-        .get("repositories-list", { params: data })
+        .get("github/repositories", { params: data })
         .then((response) => {
           this.repositories = response.data["repositories"];
         })
         .finally(() => {
           this.loadFeaturedRepositories();
-          this.removeExistingItems()
+          this.removeExistingItems();
           this.$q.loading.hide();
         });
     },
@@ -218,8 +218,8 @@ export default {
     },
 
     loadFeaturedRepositories() {
-      axios.get("featured-repositories").then((response) => {
-        this.featuredRepositories = response.data;
+      axios.get("github").then((response) => {
+        this.featuredRepositories = response.data["featured_repositories"];
         this.removeExistingItems();
       });
     },
@@ -240,24 +240,40 @@ export default {
         },
       };
 
-      axios.post("save-repository", data).then(() => {
-        this.loadFeaturedRepositories();
+      axios
+        .post("github", data)
+        .then(() => {
+          this.loadFeaturedRepositories();
 
-        this.$q.notify({
-          message: "Repositório salvo com sucesso",
-          color: "green-8",
+          this.$q.notify({
+            message: "Repositório salvo com sucesso",
+            color: "green-8",
+          });
+        })
+        .catch((data) => {
+          console.log(data.response);
+          for (let property in data.response.data) {
+            this.$q.notify({
+              message: `Não foi possível favoritar repositório, campo: ${property}, motivo: ${data.response.data[property]}`,
+              color: "red-8",
+            });
+          }
         });
-      });
     },
 
     removeExistingItems() {
-        for (var i=0; i < this.featuredRepositories.length; i++) {
-          function arrayRemove(arr, value) {
-            return arr.filter((e) => e.id_repository != value["id_from_repository"])
-          }
-
-          this.repositories = arrayRemove(this.repositories, this.featuredRepositories[i])
+      for (var i = 0; i < this.featuredRepositories.length; i++) {
+        function arrayRemove(arr, value) {
+          return arr.filter(
+            (e) => e.id_repository != value["id_from_repository"]
+          );
         }
+
+        this.repositories = arrayRemove(
+          this.repositories,
+          this.featuredRepositories[i]
+        );
+      }
     },
   },
 };
