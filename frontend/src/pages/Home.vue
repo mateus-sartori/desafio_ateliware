@@ -1,11 +1,8 @@
 <template>
   <div>
     <div class="q-py q-mt-md">
-      <div class="row items-center justify-between">
-        <span class="col-2 repo-list text-uppercase text-caption"
-          >Repositórios populares</span
-        >
-        <div class="col-10 row justify-end column-gap-md">
+      <div class="row items-center justify-end">
+        <div class="col-12 row justify-end column-gap-md">
           <q-input
             color="white"
             bg-color="#181a1b"
@@ -30,137 +27,161 @@
       </div>
 
       <div v-if="featuredRepositories">
-        <h6 class="repo-list">Favoritos</h6>
-        <q-card
-          class="text-white q-mt-md"
-          style="background-color: #181a1b; border: 1px solid rgb(55 60 62)"
-        >
-          <div v-for="(elem, index) in featuredRepositories" v-bind:key="index">
-            <q-card-section>
-              <div class="row justify-between">
-                <div
-                  class="repo-list text-h6 repo-title"
-                  @click="goTo(elem['html_url'])"
-                >
-                  {{ elem["name"] }}
-                </div>
-                <div v-if="elem['favorited']" class="repo-list text-h6">
-                  <q-icon
-                    size="xs"
-                    color="red-8"
-                    class="repo-list"
-                    name="fas fa-heart"
-                  />
-                </div>
-              </div>
-              <div class="repo-list text-subtitle3">
-                <span v-if="elem['description']">{{
-                  elem["description"].substring(0, 200) + "..."
-                }}</span>
-              </div>
-              <div class="row justify-between q-mt-md">
-                <div class="repo-list text-subtitle3">
-                  {{ elem["language"] }}
-                </div>
-                <div class="row items-center justify-end">
-                  <div class="row column-gap-xs items-center">
-                    <q-icon size="xs" class="repo-list" name="star_rate" />
-                    <div class="repo-list text-subtitle2">
-                      {{ elem["stars"] }}
+        <q-expansion-item class="text-h6 repo-list q-my-lg" label="Favoritos">
+          <div class="text-caption">
+            <q-card
+              class="text-white q-mt-md"
+              style="background-color: #181a1b; border: 1px solid rgb(55 60 62)"
+            >
+              <div
+                v-for="(elem, index) in featuredRepositories"
+                v-bind:key="index"
+              >
+                <q-card-section>
+                  <div class="row justify-between">
+                    <div
+                      class="repo-list text-h6 repo-title"
+                      @click="goTo(elem['html_url'])"
+                    >
+                      {{ elem["name"] }}
+                    </div>
+                    <div v-if="elem['favorited']" class="repo-list text-h6">
+                      <q-icon
+                        size="xs"
+                        @click="destroyFeaturedRepository(elem)"
+                        color="red-8"
+                        class="repo-list heart-icon"
+                        name="fas fa-heart"
+                      />
                     </div>
                   </div>
+                  <div class="repo-list text-subtitle3">
+                    <span v-if="elem['description']">{{
+                      elem["description"].substring(0, 200) + "..."
+                    }}</span>
+                  </div>
+                  <div class="row justify-between q-mt-md">
+                    <div class="repo-list text-subtitle3">
+                      {{ elem["language"] }}
+                    </div>
+                    <div class="row items-center justify-end">
+                      <div class="row column-gap-xs items-center">
+                        <q-icon size="xs" class="repo-list" name="star_rate" />
+                        <div class="repo-list text-subtitle2">
+                          {{ elem["stars"] }}
+                        </div>
+                      </div>
 
-                  <div class="row q-mx-md column-gap-xs items-center">
-                    <q-icon size="xs" class="repo-list" name="visibility" />
-                    <div class="repo-list text-subtitle2">
-                      {{ elem["watchers"] }}
-                    </div>
-                  </div>
+                      <div class="row q-mx-md column-gap-xs items-center">
+                        <q-icon size="xs" class="repo-list" name="visibility" />
+                        <div class="repo-list text-subtitle2">
+                          {{ elem["watchers"] }}
+                        </div>
+                      </div>
 
-                  <div class="row column-gap-xs items-center">
-                    <q-icon
-                      size="xs"
-                      class="repo-list"
-                      name="fas fa-code-branch"
-                    />
-                    <div class="repo-list text-subtitle2">
-                      {{ elem["forks"] }}
+                      <div class="row column-gap-xs items-center">
+                        <q-icon
+                          size="xs"
+                          class="repo-list"
+                          name="fas fa-code-branch"
+                        />
+                        <div class="repo-list text-subtitle2">
+                          {{ elem["forks"] }}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </q-card-section>
+                <q-separator style="border-bottom: 1px solid #373c3e" />
               </div>
-            </q-card-section>
-            <q-separator style="border-bottom: 1px solid #373c3e" />
+            </q-card>
           </div>
-        </q-card>
+        </q-expansion-item>
       </div>
 
       <div v-if="repositories">
-        <h6 class="repo-list">Repositórios populares</h6>
-        <q-card
-          class="text-white q-mt-md"
-          style="background-color: #181a1b; border: 1px solid rgb(55 60 62)"
+        <q-expansion-item
+          class="text-h6 repo-list q-my-lg"
+          label="Repositórios polulares"
         >
-          <div v-for="(elem, index) in repositories" v-bind:key="index">
-            <q-card-section>
-              <div class="row justify-between">
-                <div
-                  class="repo-list text-h6 repo-title"
-                  @click="goTo(elem['owner']['html_url'])"
-                >
-                  {{ elem["name"] }}
-                </div>
-                <div v-if="!elem['favorited']" class="repo-list text-h6">
-                  <q-icon
-                    @click="saveFeaturedRepository(elem)"
-                    size="xs"
-                    color="grey-8"
-                    class="repo-list"
-                    name="fas fa-heart"
-                  />
-                </div>
-              </div>
-              <div class="repo-list text-subtitle3">
-                <span v-if="elem['description']">{{
-                  elem["description"].substring(0, 200) + "..."
-                }}</span>
-              </div>
-              <div class="row justify-between q-mt-md">
-                <div class="repo-list text-subtitle3">
-                  {{ elem["language"] }}
-                </div>
-                <div class="row items-center justify-end">
-                  <div class="row column-gap-xs items-center">
-                    <q-icon size="xs" class="repo-list" name="star_rate" />
-                    <div class="repo-list text-subtitle2">
-                      {{ elem["stars"] }}
+          <div class="text-caption">
+            <div class="row justify-end">
+              <q-icon
+                @click="loadRepositories(language)"
+                size="md"
+                color="grey-8"
+                class="repo-list q-my-lg"
+                :class="loadSpinner ? 'refresh' : ''"
+                name="refresh"
+              />
+            </div>
+            <q-card
+              class="text-white q-mt-md"
+              style="background-color: #181a1b; border: 1px solid rgb(55 60 62)"
+            >
+              <div v-for="(elem, index) in repositories" v-bind:key="index">
+                <q-card-section>
+                  <div class="row justify-between">
+                    <div
+                      class="repo-list text-h6 repo-title"
+                      @click="goTo(elem['owner']['html_url'])"
+                    >
+                      {{ elem["name"] }}
+                    </div>
+                    <div v-if="!elem['favorited']" class="repo-list text-h6">
+                      <q-icon
+                        @click="saveFeaturedRepository(elem)"
+                        size="xs"
+                        color="grey-8"
+                        class="repo-list heart-icon"
+                        name="fas fa-heart"
+                      />
                     </div>
                   </div>
+                  <div class="repo-list text-subtitle3">
+                    <span v-if="elem['description']">{{
+                      elem["description"].substring(0, 200) + "..."
+                    }}</span>
+                  </div>
+                  <div class="row justify-between q-mt-md">
+                    <div class="repo-list text-subtitle3">
+                      {{ elem["language"] }}
+                    </div>
+                    <div class="row items-center justify-end">
+                      <div class="row column-gap-xs items-center">
+                        <q-icon size="xs" class="repo-list" name="star_rate" />
+                        <div class="repo-list text-subtitle2">
+                          {{ elem["stars"] }}
+                        </div>
+                      </div>
 
-                  <div class="row q-mx-md column-gap-xs items-center">
-                    <q-icon size="xs" class="repo-list" name="visibility" />
-                    <div class="repo-list text-subtitle2">
-                      {{ elem["watchers"] }}
-                    </div>
-                  </div>
+                      <div class="row q-mx-md column-gap-xs items-center">
+                        <q-icon size="xs" class="repo-list" name="visibility" />
+                        <div class="repo-list text-subtitle2">
+                          {{ elem["watchers"] }}
+                        </div>
+                      </div>
 
-                  <div class="row column-gap-xs items-center">
-                    <q-icon
-                      size="xs"
-                      class="repo-list"
-                      name="fas fa-code-branch"
-                    />
-                    <div class="repo-list text-subtitle2">
-                      {{ elem["forks"] }}
+                      <div class="row column-gap-xs items-center">
+                        <q-icon
+                          size="xs"
+                          class="repo-list"
+                          name="fas fa-code-branch"
+                        />
+                        <div class="repo-list text-subtitle2">
+                          {{ elem["forks"] }}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </q-card-section>
+                <q-separator style="border-bottom: 1px solid #373c3e" />
               </div>
-            </q-card-section>
-            <q-separator style="border-bottom: 1px solid #373c3e" />
+            </q-card>
           </div>
-        </q-card>
+        </q-expansion-item>
       </div>
+
       <div class="row justify-center q-mt-xl" v-else>
         <div class="row justify-center col-12">
           <h4 class="repo-list">Repositórios não encontrados!</h4>
@@ -188,28 +209,41 @@ export default {
     language: null,
     repositories: [],
     featuredRepositories: [],
+    loadSpinner: false,
   }),
 
   created() {
-    this.loadRepositories("javascript");
+    this.loadRepositories();
   },
 
   methods: {
     loadRepositories(language) {
       this.$q.loading.show();
+      this.loadSpinner = true;
+
+      const lang = language || "javascript";
 
       var data = {
-        language: language,
+        language: lang,
       };
+
       axios
         .get("github/repositories", { params: data })
         .then((response) => {
           this.repositories = response.data["repositories"];
         })
+        .catch((data) => {
+          this.repositories = null;
+          this.$q.notify({
+            message: `Não foi possível carregar repositórios motivo: ${data.response.data["repositories"]}`,
+            color: "red-8",
+          });
+        })
         .finally(() => {
           this.loadFeaturedRepositories();
           this.removeExistingItems();
           this.$q.loading.hide();
+          this.loadSpinner = false;
         });
     },
 
@@ -251,13 +285,30 @@ export default {
           });
         })
         .catch((data) => {
-          console.log(data.response);
           for (let property in data.response.data) {
             this.$q.notify({
               message: `Não foi possível favoritar repositório, campo: ${property}, motivo: ${data.response.data[property]}`,
               color: "red-8",
             });
           }
+        });
+    },
+
+    destroyFeaturedRepository(elem) {
+      axios
+        .delete(`github/${elem.id}`)
+        .then(() => {
+          this.removeFromFeatured(elem.id);
+          this.$q.notify({
+            message: "Repositório removido com sucesso!",
+            color: "green-8",
+          });
+        })
+        .catch(() => {
+          this.$q.notify({
+            message: `Não foi possível desmarcar repositório.`,
+            color: "red-8",
+          });
         });
     },
 
@@ -273,6 +324,16 @@ export default {
           this.repositories,
           this.featuredRepositories[i]
         );
+      }
+    },
+
+    removeFromFeatured(id) {
+      for (var i = 0; i < this.featuredRepositories.length; i++) {
+        function arrayRemove(arr, id) {
+          return arr.filter((e) => e.id != id);
+        }
+
+        this.featuredRepositories = arrayRemove(this.featuredRepositories, id);
       }
     },
   },
@@ -291,5 +352,23 @@ export default {
 .repo-title:hover {
   cursor: pointer;
   text-decoration: underline;
+}
+
+.refresh {
+  cursor: pointer;
+  animation: spin 2s linear infinite;
+}
+
+.heart-icon {
+  cursor: pointer;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
