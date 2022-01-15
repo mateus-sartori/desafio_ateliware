@@ -39,6 +39,9 @@ bundle install
 
 # Por ser um projeto em Rails é necessário também inicializar o banco de dados em ambiente dev
 rails db:create
+
+# É preciso rodar o comando de migrations em seguida para criar as tabelas
+rails db:migrate
 ```
 
 ## 🎲 Rodando o frontend

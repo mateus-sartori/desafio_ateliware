@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   namespace :api, defaults: { format: :json } do
-    post 'save-repository', action: :create, controller: :github
-    get 'featured-repositories', action: :index, controller: :github
-    get 'repositories-list', action: :list_repositories, controller: :github
+    resource :github, except: %i[show update destroy], controller: :github do
+      collection do
+        get '/', action: :index
+        get 'repositories', action: :repositories_from_github
+      end
+    end
   end
 end

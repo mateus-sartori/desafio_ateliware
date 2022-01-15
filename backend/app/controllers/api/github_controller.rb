@@ -1,6 +1,6 @@
-require 'repositories'
-
 class Api::GithubController < ApplicationController
+  include Repository
+
   def create
     @repository = FeaturedRepository.new(repository_params)
 
@@ -12,19 +12,18 @@ class Api::GithubController < ApplicationController
   end
 
   def index
-    @repositories = FeaturedRepository.all()
-    render json: @repositories
+    render json: { featured_repositories: featured_repositories }
   end
 
-  def list_repositories
-    render json: { repositories: Repositories.new.repositories_list(params[:language]) }
+  def repositories_from_github
+    render json: { repositories: repositories_list(params[:language]) }
   end
 
   private
 
   def repository_params
-    params.fetch(:repository, {}).permit(:id_from_repository, :owner, :name, :description, 
-                                         :html_url, :stars, :watchers, :forks, :language, 
+    params.fetch(:repository, {}).permit(:id_from_repository, :owner, :name, :description,
+                                         :html_url, :stars, :watchers, :forks, :language,
                                          :favorited)
   end
 end

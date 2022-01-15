@@ -1,12 +1,20 @@
 require 'faraday'
 require 'json'
 
-class Repositories
+module Repository
+  def featured_repositories
+    FeaturedRepository.all
+  end
+
   def repositories_list(language)
     return unless language.present?
 
-    url = "https://api.github.com/search/repositories?q=language:#{language}&sort=stars&order=desc"
-    response = Faraday.get(url, { 'Accept' => 'application/json' })
+    url = 'https://api.github.com/search/repositories'
+    response = Faraday.get(url, {
+                             q: language,
+                             sort: 'stars',
+                             order: 'desc'
+                           })
     repos = JSON.parse(response.body)['items']
 
     return if repos.nil?
