@@ -3,8 +3,8 @@ class CreateFeaturedRepositories < ActiveRecord::Migration[6.1]
     create_table :featured_repositories do |t|
       t.integer :id_from_repository
       t.string  :owner
-      t.string  :name 
-      t.text  :description
+      t.string  :name
+      t.text    :description
       t.string  :html_url
       t.integer :stars
       t.integer :watchers
@@ -15,6 +15,6 @@ class CreateFeaturedRepositories < ActiveRecord::Migration[6.1]
       t.timestamps
     end
 
-    add_index :featured_repositories, :name, unique:true
+    add_index :featured_repositories, :name, unique: true
   end
 end
