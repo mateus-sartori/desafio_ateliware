@@ -108,5 +108,9 @@ RSpec.describe 'Github Requests', type: :request do
     context 'Should return no content' do
       it { expect(response).to be_no_content }
     end
+
+    context 'Should destroy' do
+      it { expect(FeaturedRepository.all.count).to be 0 }
+    end
   end
 end
