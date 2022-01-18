@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: easyframes
+      MYSQL_DATABASE: github_explorer
       MYSQL_PASSWORD: root
     ports:
       - "3306:3306"
@@ -23,7 +23,7 @@ services:
       - db
     environment:
       DB_USER: root
-      DB_NAME: easyframes
+      DB_NAME: github_explorer
       DB_HOST: db
 
 #Docker Networks
