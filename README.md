@@ -1,5 +1,7 @@
 # Github Explorer
 
+![Alt Text](github_explorer.gif)
+
 ## 🚦 Pré Requisitos
 
 - [Node](https://nodejs.org/en/)
