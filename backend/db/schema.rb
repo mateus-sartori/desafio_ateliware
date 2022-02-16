@@ -10,22 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_09_144135) do
-
-  create_table "featured_repositories", charset: "utf8mb4", force: :cascade do |t|
-    t.integer "id_from_repository"
-    t.string "owner"
-    t.string "name"
-    t.text "description"
-    t.string "html_url"
-    t.integer "stars"
-    t.integer "watchers"
-    t.integer "forks"
-    t.string "language"
-    t.boolean "favorited"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["name"], name: "index_featured_repositories_on_name", unique: true
+ActiveRecord::Schema.define(version: 20_211_209_144_135) do
+  create_table 'featured_repositories', charset: 'utf8mb4', force: :cascade do |t|
+    t.integer 'id_from_repository'
+    t.string 'owner'
+    t.string 'name'
+    t.text 'description'
+    t.string 'html_url'
+    t.integer 'stars'
+    t.integer 'watchers'
+    t.integer 'forks'
+    t.string 'language'
+    t.boolean 'favorited'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.index ['name'], name: 'index_featured_repositories_on_name', unique: true
   end
-
 end
